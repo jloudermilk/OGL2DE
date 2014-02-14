@@ -51,8 +51,9 @@ Sprite::Sprite(void)
 
 Sprite::~Sprite(void)
 {
+	delete modelMatrix;
 }
-Sprite::Sprite( const char* a_pTexture, int a_iWidth, int a_iHeight, tbyte::Vector4 a_v4Color ,GLFWwindow * window)
+Sprite::Sprite( const char* a_pTexture, int a_iWidth, int a_iHeight, Vector4 a_v4Color ,GLFWwindow * window)
 {
 
 	GameWindow = window;
@@ -63,16 +64,16 @@ Sprite::Sprite( const char* a_pTexture, int a_iWidth, int a_iHeight, tbyte::Vect
 
 	m_v4SpriteColor = a_v4Color;
 
-	m_aoVerts[0].Pos = tbyte::Vector3(	-0.5f,  0.5f,  0.0f);
-	m_aoVerts[1].Pos = tbyte::Vector3(	0.5f,  0.5f,  0.0f);
-	m_aoVerts[2].Pos = tbyte::Vector3(	-0.5f,  -0.5f,  0.0f);
-	m_aoVerts[3].Pos = tbyte::Vector3(	0.5f,  -0.5f,  0.0f);
+	m_aoVerts[0].Pos = Vector3(	-0.5f,  0.5f,  0.0f);
+	m_aoVerts[1].Pos = Vector3(	0.5f,  0.5f,  0.0f);
+	m_aoVerts[2].Pos = Vector3(	-0.5f,  -0.5f,  0.0f);
+	m_aoVerts[3].Pos = Vector3(	0.5f,  -0.5f,  0.0f);
 	
 	/*
-	m_aoVerts[0].Color = tbyte::Vector4(1.0f,  0.0f,  0.0f, 1.0f);
-	m_aoVerts[1].Color = tbyte::Vector4(0.0f,  1.0f,  0.0f, 1.0f);
-	m_aoVerts[2].Color = tbyte::Vector4(0.0f,  0.0f,  1.0f, 1.0f);
-	m_aoVerts[3].Color = tbyte::Vector4(1.0f,  1.0f,  1.0f, 1.0f);
+	m_aoVerts[0].Color = Vector4(1.0f,  0.0f,  0.0f, 1.0f);
+	m_aoVerts[1].Color = Vector4(0.0f,  1.0f,  0.0f, 1.0f);
+	m_aoVerts[2].Color = Vector4(0.0f,  0.0f,  1.0f, 1.0f);
+	m_aoVerts[3].Color = Vector4(1.0f,  1.0f,  1.0f, 1.0f);
 	*/
 
 
@@ -83,10 +84,10 @@ Sprite::Sprite( const char* a_pTexture, int a_iWidth, int a_iHeight, tbyte::Vect
 
 
 
-	m_aoVerts[0].UV = tbyte::Vector2(0.0f,  0.0f);
-	m_aoVerts[1].UV = tbyte::Vector2(0.0f,  1.0f);
-	m_aoVerts[2].UV = tbyte::Vector2(1.0f,  0.0f);
-	m_aoVerts[3].UV = tbyte::Vector2(1.0f,  1.0f);
+	m_aoVerts[0].UV = Vector2(0.0f,  0.0f);
+	m_aoVerts[1].UV = Vector2(0.0f,  1.0f);
+	m_aoVerts[2].UV = Vector2(1.0f,  0.0f);
+	m_aoVerts[3].UV = Vector2(1.0f,  1.0f);
 
 	GLuint elements[] =
 	{
@@ -122,29 +123,19 @@ Sprite::Sprite( const char* a_pTexture, int a_iWidth, int a_iHeight, tbyte::Vect
 	glVertexAttribPointer(uvAttrib, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(7 * sizeof(float)));
 
 	glBindVertexArray(0);
-	m_v2Scale = tbyte::Vector2(a_iWidth,a_iHeight);
-	m_v3Position = tbyte::Vector3(1024/2,768/2,0);
+	m_v2Scale = Vector2(a_iWidth,a_iHeight);
+
+
+	m_v3Position = Vector3(g_gl_width/2,g_gl_height/2,0);
+
+	modelMatrix = new Matrix4();
 	
-	modelMatrix = new tbyte::Matrix4();
-	viewMatrix = new tbyte::Matrix4();
-
-	*modelMatrix  = *viewMatrix = Matrix4::IdentityMatrix();
+	*modelMatrix   = Matrix4::IdentityMatrix();
 	
-	ViewLookAt(tbyte::Vector4(0,0,0,0),tbyte::Vector4(0,0,.5,0),tbyte::Vector4(0,1,0,0), viewMatrix);
-
-	modelMatrix->m_afArray[12] = m_v3Position.m_fX;
-	modelMatrix->m_afArray[13] = m_v3Position.m_fY;
-	modelMatrix->m_afArray[14] = m_v3Position.m_fZ;
-
-
 	matrix_location = glGetUniformLocation (m_ShaderProgram, "matrix");
 
 
 	m_uiTexture = 0;
-	m_minUVCoords = tbyte::Vector2( 0.f, 0.f );
-	m_maxUVCoords = tbyte::Vector2( 1.f, 1.f );
-	m_uvScale = tbyte::Vector2( 1.f, 1.f );
-	m_uvOffset = tbyte::Vector2( 0.f, 0.f );
 
 	m_uSourceBlendMode	= GL_SRC_ALPHA;
 	m_uDestinationBlendMode = GL_ONE_MINUS_SRC_ALPHA;
@@ -165,11 +156,11 @@ Sprite::Sprite( const char* a_pTexture, int a_iWidth, int a_iHeight, tbyte::Vect
 
 
 	tex_location = glGetUniformLocation (m_ShaderProgram, "diffuseTexture");
-	
-	proj_location = glGetUniformLocation (m_ShaderProgram, "projection");
-	
-	view_location = glGetUniformLocation (m_ShaderProgram, "view");
 
+	m_minUVCoords = Vector2( 0.f, 0.f );
+	m_maxUVCoords = Vector2( 1.f, 1.f );
+	m_uvScale = Vector2( 1.f, 1.f );
+	m_uvOffset = Vector2( 0.f, 0.f );
 }
 
 void Sprite::Draw()
@@ -206,22 +197,22 @@ void Sprite::Input()
 {
 	  if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_W))
         {
-			m_v3Position += tbyte::Vector3(0.0f, 1.f, 0.0f);
+			m_v3Position += Vector3(0.0f, 1.f, 0.0f);
 	  }
 
         if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_A))
         {
-                m_v3Position += tbyte::Vector3(-1.f, 0.0f, 0.0f);
+                m_v3Position += Vector3(-1.f, 0.0f, 0.0f);
         }
 
         if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_S))
         {
-			m_v3Position += tbyte::Vector3(0.0f, -1.f, 0.0f);
+			m_v3Position += Vector3(0.0f, -1.f, 0.0f);
 		}
 
         if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_D))
         {
-                 m_v3Position += tbyte::Vector3(1.f, 0.0f, 0.0f);
+                 m_v3Position += Vector3(1.f, 0.0f, 0.0f);
         }
 
 }

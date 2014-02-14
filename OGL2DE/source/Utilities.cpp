@@ -1,16 +1,17 @@
 #include <Utilities.h>
 
 Matrix4  * Ortho;
-
-	void ViewLookAt( tbyte::Vector4& vCameraPos,  tbyte::Vector4& vTargetPos,  tbyte::Vector4& up_direction,tbyte::Matrix4 * mat)
+int g_gl_width = 1024;
+int g_gl_height = 720;
+	void ViewLookAt( Vector4& vCameraPos,  Vector4& vTargetPos,  Vector4& up_direction,Matrix4 * mat)
 	{
-		tbyte::Vector4 vForward = vTargetPos-vCameraPos;
+		Vector4 vForward = vTargetPos-vCameraPos;
 		vForward.Normalise();
 		
-		tbyte::Vector4 vRight =vForward.CrossProduct(up_direction);
+		Vector4 vRight =vForward.CrossProduct(up_direction);
 		vRight.Normalise();
 
-		tbyte::Vector4 vUp = vForward.CrossProduct(vRight);
+		Vector4 vUp = vForward.CrossProduct(vRight);
 		
 		mat->m_afArray[0] = vRight.m_fX; 
 		mat->m_afArray[4] = vRight.m_fY; 
@@ -33,7 +34,7 @@ Matrix4  * Ortho;
 		mat->m_afArray[15] = 1.0f;
 	}
 	
-	void Orthographic(float a_fLeft, float a_fRight, float a_fTop, float a_fBottom, float a_fNear, float a_fFar,tbyte::Matrix4 * mat)
+	void Orthographic(float a_fLeft, float a_fRight, float a_fTop, float a_fBottom, float a_fNear, float a_fFar,Matrix4 * mat)
 	{
 		float       deltaX = a_fRight - a_fLeft;
 		float       deltaY = a_fTop - a_fBottom;
@@ -60,7 +61,7 @@ Matrix4  * Ortho;
 		mat->m_afArray[15] = 1.f;
 	}
 
-	void Orthographic(float a_fWidth, float a_fHeight, float a_fNear, float a_fFar,tbyte::Matrix4 * mat)
+	void Orthographic(float a_fWidth, float a_fHeight, float a_fNear, float a_fFar,Matrix4 * mat)
 	{
 		mat->m_afArray[0] = 2 / a_fWidth;
 		mat->m_afArray[1] = 0;
@@ -83,7 +84,7 @@ Matrix4  * Ortho;
 		mat->m_afArray[15] = 1;
 	}
 
-	void Perspective(float a_fUpFOV, float a_fAspectRatio, float a_fNear, float a_fFar,tbyte::Matrix4 *mat)
+	void Perspective(float a_fUpFOV, float a_fAspectRatio, float a_fNear, float a_fFar,Matrix4 *mat)
 	{
 		float halfAngleRadians = 0.5f * a_fUpFOV;
 		float cot = 1 / tanf(halfAngleRadians);

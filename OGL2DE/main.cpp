@@ -6,9 +6,6 @@
 #include "Sprite.h"
 
 
-// keep track of window size for things like the viewport and the mouse cursor
-int g_gl_width = 1024;
-int g_gl_height = 720;
 
 
 // a call-back function
@@ -87,20 +84,21 @@ int main()
 	glDepthFunc (GL_LESS); // depth-testing interprets a smaller value as "closer"
 
 	/* OTHER STUFF GOES HERE NEXT */
-	Ortho =  new tbyte::Matrix4();
+	Ortho =  new Matrix4();
 	Orthographic(0,g_gl_width,g_gl_height,0,0,-1,Ortho);
 
-	
 
 
-Sprite * tester = new Sprite("../resources/megamanx.png",240,272,tbyte::Vector4(1,1,1,1),window); 
+
+	Sprite * tester = new Sprite("../resources/megamanx.png",24,27,Vector4(1,1,1,1),window); 
 
 
 
 
 	while (!glfwWindowShouldClose (window)) {
-
-		
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, .5);
+		glEnable(GL_ALPHA);
 		glEnable (GL_CULL_FACE); // cull face
 		glCullFace (GL_BACK); // cull back face
 		glFrontFace (GL_CW); // GL_CCW for counter clock-wise

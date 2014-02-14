@@ -28,15 +28,21 @@ using namespace tbyte;
 extern Matrix4 * Ortho;
 
 
+// keep track of window size for things like the viewport and the mouse cursor
+extern int g_gl_width;
+extern int g_gl_height;
+
+
+
 struct Vertex
 {
 	union
 	{
 		struct 
 		{
-			tbyte::Vector3 Pos;
-			tbyte::Vector4 Color;
-			tbyte::Vector2 UV;
+			Vector3 Pos;
+			Vector4 Color;
+			Vector2 UV;
 		};
 		
 		struct
@@ -57,13 +63,13 @@ struct Vertex
 
 
 
-	void ViewLookAt( tbyte::Vector4& eye,  tbyte::Vector4& to,  tbyte::Vector4& up,tbyte::Matrix4 * mat);
+	void ViewLookAt( Vector4& eye,  Vector4& to,  Vector4& up,Matrix4 * mat);
 
-	void Orthographic(float a_fLeft, float a_fRight, float a_fTop, float a_fBottom, float a_fNear, float a_fFar,tbyte::Matrix4 * mat);
+	void Orthographic(float a_fLeft, float a_fRight, float a_fTop, float a_fBottom, float a_fNear, float a_fFar,Matrix4 * mat);
 
-	void Orthographic(float a_fWidth, float a_fHeight, float a_fNear, float a_fFar,tbyte::Matrix4 * mat);
+	void Orthographic(float a_fWidth, float a_fHeight, float a_fNear, float a_fFar,Matrix4 * mat);
 
-	void Perspective(float a_fUpFOV, float a_fAspectRatio, float a_fNear, float a_fFar,tbyte::Matrix4 * mat);
+	void Perspective(float a_fUpFOV, float a_fAspectRatio, float a_fNear, float a_fFar,Matrix4 * mat);
 
 
 

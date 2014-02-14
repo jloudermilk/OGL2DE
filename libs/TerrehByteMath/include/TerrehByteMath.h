@@ -22,8 +22,9 @@ namespace tbyte
 
 		~Vector2();
 
-		float	m_fY;
 		float	m_fX;
+		float	m_fY;
+		
 
 		// Get Euler Angle Between Two Vectors
 		float EulerAngle(const Vector2 &a_Term);
@@ -184,8 +185,8 @@ namespace tbyte
 		void Transpose();
 
 		// Returns a point that has been transformed by the Matrix3 caller
-		tbyte::Vector4 VectorTransform(const tbyte::Vector4 &a_Point);
-		tbyte::Vector3 VectorTransform(const tbyte::Vector3 &a_Point);
+		Vector4 VectorTransform(const Vector4 &a_Point);
+		Vector3 VectorTransform(const Vector3 &a_Point);
 
 		// Assigns & Returns the Identity Matrix for 3x3 to the caller
 		static Matrix3 IdentityMatrix();
@@ -194,8 +195,8 @@ namespace tbyte
 		float GetDeterminant();
 
 		// Returns a Vector4 that has been scaled by the Matrix caller
-		tbyte::Vector4 Scale(const tbyte::Vector4 &a_Vector);
-		tbyte::Vector3 Scale(const tbyte::Vector3 &a_Vector);
+		Vector4 Scale(const Vector4 &a_Vector);
+		Vector3 Scale(const Vector3 &a_Vector);
 
 		// Returns a Transform Matrix3 for rotation around the '_'-axis in radians
 		static Matrix3 MakeXRotationMatrix(float a_Radians);
@@ -237,7 +238,7 @@ namespace tbyte
 		void Transpose();
 
 		// Returns a point that has been transformed by the Matrix caller
-		tbyte::Vector4 PointTransform(const tbyte::Vector4 &a_Point);
+		Vector4 PointTransform(const Vector4 &a_Point);
 
 		// Assigns & Returns the Identity Matrix for 3x3 to the caller
 		static Matrix4 IdentityMatrix();
@@ -259,8 +260,8 @@ namespace tbyte
 									float a_fNear);
 
 		// Returns a Vector4 that has been scaled by the Matrix caller
-		tbyte::Vector4 Scale(const tbyte::Vector4 &a_Vector);
-		tbyte::Vector3 Scale(const tbyte::Vector3 &a_Vector);
+		Vector4 Scale(const Vector4 &a_Vector);
+		Vector3 Scale(const Vector3 &a_Vector);
 
 		// Returns a Transform Matrix4 for rotation around the '_'-axis in radians
 		static Matrix4 MakeXRotationMatrix(float a_Radians);
@@ -268,8 +269,8 @@ namespace tbyte
 		static Matrix4 MakeZRotationMatrix(float a_Radians);
 
 		// Returns a Vector4 transformed by the Matrix caller
-		tbyte::Vector4 VectorTransform(const tbyte::Vector4 &a_Vector);
-		tbyte::Vector3 VectorTransform(const tbyte::Vector3 &a_Vector);
+		Vector4 VectorTransform(const Vector4 &a_Vector);
+		Vector3 VectorTransform(const Vector3 &a_Vector);
 
 		// Operators (explained by their parameters)
 		Matrix4	operator + (const Matrix4 &a_Addend);
