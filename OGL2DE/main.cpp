@@ -5,8 +5,7 @@
 #include <stdio.h>
 #include "Sprite.h"
 
-
-
+#include <AnimatedSprite.h>
 
 // a call-back function
 void glfw_window_size_callback (GLFWwindow* window, int width, int height) {
@@ -87,12 +86,9 @@ int main()
 	Ortho =  new Matrix4();
 	Orthographic(0,g_gl_width,g_gl_height,0,0,-1,Ortho);
 
-
-
-
 	Sprite * tester = new Sprite("../resources/megamanx.png",24,27,Vector4(1,1,1,1),window); 
 
-
+	AnimatedSprite test = AnimatedSprite("../resources/MegamanXSheet.xml",window);
 
 
 	while (!glfwWindowShouldClose (window)) {

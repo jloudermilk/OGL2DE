@@ -33,6 +33,9 @@
     <ClCompile Include="source\Quad.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\AnimatedSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Sprite.h">
@@ -51,6 +54,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\libs\TerrehByteMath\include\TerrehByteMath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AnimatedSprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

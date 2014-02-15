@@ -67,6 +67,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\AnimatedSprite.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="source\GLLog.cpp" />
     <ClCompile Include="source\Quad.cpp" />
@@ -76,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\libs\TerrehByteMath\include\TerrehByteMath.h" />
+    <ClInclude Include="include\AnimatedSprite.h" />
     <ClInclude Include="include\GLLog.h" />
     <ClInclude Include="include\Quad.h" />
     <ClInclude Include="include\Sprite.h" />
