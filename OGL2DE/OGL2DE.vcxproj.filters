@@ -59,6 +59,9 @@
     <ClInclude Include="include\AnimatedSprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\libs\tinyxml2\include\tinyxml2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\megamanx.png">
@@ -66,5 +69,15 @@
     </None>
     <None Include="..\resources\exampleFrag.glsl" />
     <None Include="..\resources\exampleVert.glsl" />
+    <None Include="..\resources\megamansheet.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\resources\MegamanXSheet.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\resources\MegamanXSheet.xml" />
+    <None Include="..\resources\strider.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

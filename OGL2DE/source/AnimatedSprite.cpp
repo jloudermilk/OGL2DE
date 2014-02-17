@@ -11,6 +11,7 @@ AnimatedSprite::~AnimatedSprite(void)
 }
 AnimatedSprite::AnimatedSprite( const char* a_pSpriteSheet, GLFWwindow * window)
 {
+
 	LoadSprites(a_pSpriteSheet);
 
 }
@@ -19,32 +20,18 @@ void AnimatedSprite::LoadSprites(const char* a_pSpriteSheet)
 {
 	/*
 	XML structure
-	- Element "atlas"		the root element
-							FirstChildElement of the document
-	- - Element "width"		child of atlas Element
-							FirstChildElement of atlas
-	- - - Num				child of width Element
-	- - Element "height"	child of atlas Element
-	- - - Num				child of height Element
-	- - Element "location"	child of atlas Element
-	- - - Text				child of location Element location of the image
-	- -	Element "sprite"	child of atlas Element
-	- - - Element "name"	child of sprite Element
-	- - - - Text			child of name Element
-	- - - Element "size"	child of sprite Element
-	- - - - Element "x"		child of size Element
-	- - - - - Num			child of x Element
-	- - - - Element "y"		child of size Element
-	- - - - - Num			child of y Element
-	- - - Element "x1"		child of sprite Element
-	- - - - Num				child of x1 Element
-	- - - Element "x2"		child of sprite Element
-	- - - - Num				child of x2 Element
-	- - - Element "y1"		child of sprite Element
-	- - - - Num				child of y1 Element
-	- - - Element "y2"		child of sprite Element
-	- - - - Num				child of y2 Element
-
+	- Element "atlas"			the root element
+	- - Attribute "width"		attribute of atlas Element
+	- - Attribute "height"		attribute of atlas Element
+	- - Attribute "sheet"		attribute of atlas Element
+	- - Attribute "animations"	attribute of atlas Element
+	
+	- -	Element "sprite"		child of atlas Element
+	- - - Attribute "name"		attribute of sprite Element
+	- - - Attribute "x0"		attribute of sprite Element
+	- - - Attribute "x1"		attribute of sprite Element
+	- - - Attribute "y0"		attribute of sprite Element
+	- - - Attribute "y1"		attribute of sprite Element
 	*/
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLNode *rootNode, *currentNode;
@@ -52,22 +39,28 @@ void AnimatedSprite::LoadSprites(const char* a_pSpriteSheet)
 	std::string str;
 	doc.LoadFile(a_pSpriteSheet); // load the document
 	rootNode = doc.FirstChildElement("atlas");// set the root node
-	currentNode = rootNode->FirstChild(); // set the current node to the root nodes first child
-	childElement = currentNode->ToElement();
-	str = childElement->GetText();
-	atlas.v2Size.m_fX = (int)str.c_str(); // this is ugly and its my xml fault
+	currentNode = rootNode;
 
-	currentNode = currentNode->NextSibling();
+	//currentNode = rootNode->FirstChild(); // set the current node to the root nodes first child
 	childElement = currentNode->ToElement();
-	str = childElement->GetText();
-	atlas.v2Size.m_fY = (int)str.c_str();
-	currentNode = currentNode->NextSibling();
-	childElement = currentNode->ToElement();
-	str = childElement->GetText();
-	atlas.sLocation = str.c_str();
+	atlas.v2Size.m_fX = childElement->IntAttribute("width"); 
+	atlas.v2Size.m_fY = childElement->IntAttribute("height");
+	atlas.sSheet = childElement->Attribute("sheet");
+	atlas.sAnimations = childElement->Attribute("animations");
 
 
-	//atlas.sLocation = doc.FirstChildElement("atlas")->
+	for (childElement = currentNode->FirstChildElement(); childElement != NULL; childElement = childElement->NextSiblingElement())
+	{
+	str = childElement->Attribute("name");
+	mFrames[str].Name = str;
+	mFrames[str].x0 = childElement->IntAttribute("x0");
+	mFrames[str].x1 = childElement->IntAttribute("x1");
+	mFrames[str].y0 = childElement->IntAttribute("y0");
+	mFrames[str].y1 = childElement->IntAttribute("y1");
+	mFrames[str].height = mFrames[str].y1 - mFrames[str].y0;
+	mFrames[str].width = mFrames[str].x1 - mFrames[str].x0;
+	}
+	std:printf("done");
 
 
 }

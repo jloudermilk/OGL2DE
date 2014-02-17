@@ -1,248 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<atlas>
-<width>512</width>
-<height>512</height>
-<location>../resources/MegamanXSheet.png</location>
-<sprite>
-<name>tport 0</name>
-<size>
-<x>7</x>
-<y>47</y>
-</size>
-<x1>0</x1>
-<x2>7</x2>
-<y1>0</y1>
-<y2>47</y2>
-</sprite>
-<sprite>
-<name>tport 1</name>
-<size>
-<x>21</x>
-<y>26</y>
-</size>
-<x1>12</x1>
-<x2>33</x2>
-<y1>19</y1>
-<y2>47</y2>
-</sprite>
-<sprite>
-<name>tport 2</name>
-<size>
-<x>29</x>
-<y>41</y>
-</size>
-<x1>38</x1>
-<x2>67</x2>
-<y1>6</y1>
-<y2>47</y2>
-</sprite>
-<sprite>
-<name>tport 3</name>
-<size>
-<x>29</x>
-<y>38</y>
-</size>
-<x1>72</x1>
-<x2>101</x2>
-<y1>9</y1>
-<y2>47</y2>
-</sprite>
-<sprite>
-<name>tport 4</name>
-<size>
-<x>29</x>
-<y>35</y>
-</size>
-<x1>106</x1>
-<x2>135</x2>
-<y1>12</y1>
-<y2>47</y2>
-</sprite>
-<sprite>
-<name>tport 5</name>
-<size>
-<x>29</x>
-<y>33</y>
-</size>
-<x1>140</x1>
-<x2>169</x2>
-<y1>14</y1>
-<y2>47</y2>
-</sprite>
-<sprite>
-<name>tport 6</name>
-<size>
-<x>29</x>
-<y>31</y>
-</size>
-<x1>174</x1>
-<x2>203</x2>
-<y1>16</y1>
-<y2>47</y2>
-</sprite>
-<sprite>
-<name>idle 0</name>
-<size>
-<x>29</x>
-<y>33</y>
-</size>
-<x1>208</x1>
-<x2>237</x2>
-<y1>14</y1>
-<y2>47</y2>
-</sprite>
-<sprite>
-<name>idle 1</name>
-<size>
-<x>29</x>
-<y>33</y>
-</size>
-<x1>247</x1>
-<x2>271</x2>
-<y1>14</y1>
-<y2>47</y2>
-</sprite>
-<sprite>
-<name>idle 2</name>
-<size>
-<x>29</x>
-<y>33</y>
-</size>
-<x1>276</x1>
-<x2>305</x2>
-<y1>14</y1>
-<y2>47</y2>
-</sprite>
-<sprite>
-<name>idle run</name>
-<size>
-<x>29</x>
-<y>33</y>
-</size>
-<x1>308</x1>
-<x2>337</x2>
-<y1>14</y1>
-<y2>47</y2>
-</sprite>
-<sprite>
-<name>run 0</name>
-<size>
-<x>29</x>
-<y>33</y>
-</size>
-<x1>339</x1>
-<x2>358</x2>
-<y1>14</y1>
-<y2>47</y2>
-</sprite>
-<sprite>
-<name>run 1</name>
-<size>
-<x>22</x>
-<y>34</y>
-</size>
-<x1>360</x1>
-<x2>382</x2>
-<y1>13</y1>
-<y2>47</y2>
-</sprite>
-<sprite>
-<name>run 2</name>
-<size>
-<x>31</x>
-<y>33</y>
-</size>
-<x1>383</x1>
-<x2>414</x2>
-<y1>14</y1>
-<y2>47</y2>
-</sprite>
-<sprite>
-<name>run 3</name>
-<size>
-<x>33</x>
-<y>32</y>
-</size>
-<x1>417</x1>
-<x2>450</x2>
-<y1>15</y1>
-<y2>47</y2>
-</sprite>
-<sprite>
-<name>run 4</name>
-<size>
-<x>25</x>
-<y>32</y>
-</size>
-<x1>451</x1>
-<x2>476</x2>
-<y1>15</y1>
-<y2>47</y2>
-</sprite>
-<sprite>
-<name>run 5</name>
-<size>
-<x>29</x>
-<y>33</y>
-</size>
-<x1>480</x1>
-<x2>501</x2>
-<y1>14</y1>
-<y2>47</y2>
-</sprite>
-<sprite>
-<name>run 6</name>
-<size>
-<x>21</x>
-<y>33</y>
-</size>
-<x1>0</x1>
-<x2>21</x2>
-<y1>51</y1>
-<y2>84</y2>
-</sprite>
-<sprite>
-<name>run 7</name>
-<size>
-<x>24</x>
-<y>34</y>
-</size>
-<x1>22</x1>
-<x2>46</x2>
-<y1>50</y1>
-<y2>84</y2>
-</sprite>
-<sprite>
-<name>run 8</name>
-<size>
-<x>29</x>
-<y>33</y>
-</size>
-<x1>50</x1>
-<x2>79</x2>
-<y1>51</y1>
-<y2>84</y2>
-</sprite>
-<sprite>
-<name>run 9</name>
-<size>
-<x>33</x>
-<y>32</y>
-</size>
-<x1>81</x1>
-<x2>114</x2>
-<y1>52</y1>
-<y2>84</y2>
-</sprite>
-<sprite>
-<name>run 10</name>
-<size>
-<x>28</x>
-<y>32</y>
-</size>
-<x1>115</x1>
-<x2>143</x2>
-<y1>52</y1>
-<y2>84</y2>
-</sprite>
+<atlas width = "512" height = "512" sheet ="../resources/MegamanXSheet.png" animations = "../resources/placeholder">
+
+<sprite name ="tport 0" x0 = "0" x1 ="7" y0 ="0" y1="47"/>
+
+<sprite name ="tport 1" x0 = "12" x1 ="33" y0 ="19" y1="47"/>
+<sprite name ="tport 2" x0 = "38" x1 ="67" y0 ="6" y1="47"/>
+<sprite name ="tport 3" x0 = "72" x1 ="101" y0 ="9" y1="47"/>
+<sprite name ="tport 4" x0 = "106" x1 ="135" y0 ="12" y1="47"/>
+<sprite name ="tport 5" x0 = "140" x1 ="169" y0 ="14" y1="47"/>
+<sprite name ="tport 6" x0 = "174" x1 ="203" y0 ="16" y1="47"/>
+<sprite name ="idle 0" x0 = "208" x1 ="237" y0 ="14" y1="47"/>
+<sprite name ="idle 1" x0 = "247" x1 ="271" y0 ="14" y1="47"/>
+<sprite name ="idle 2" x0 = "276" x1 ="305" y0 ="14" y1="47"/>
+<sprite name ="idle run" x0 = "308" x1 ="337" y0 ="14" y1="47"/>
+<sprite name ="run 0" x0 = "339" x1 ="358" y0 ="14" y1="47"/>
+<sprite name ="run 1" x0 = "360" x1 ="382" y0 ="13" y1="47"/>
+<sprite name ="run 2" x0 = "383" x1 ="414" y0 ="14" y1="47"/>
+<sprite name ="run 3" x0 = "417" x1 ="450" y0 ="15" y1="47"/>
+<sprite name ="run 4" x0 = "451" x1 ="476" y0 ="15" y1="47"/>
+<sprite name ="run 5" x0 = "480" x1 ="501" y0 ="14" y1="47"/>
+<sprite name ="run 6" x0 = "0" x1 ="21" y0 ="51" y1="84"/>
+<sprite name ="run 7" x0 = "22" x1 ="46" y0 ="50" y1="84"/>
+<sprite name ="run 8" x0 = "50" x1 ="79" y0 ="51" y1="84"/>
+<sprite name ="run 9" x0 = "81" x1 ="114" y0 ="52" y1="84"/>
+<sprite name ="run 10" x0 = "115" x1 ="143" y0 ="52" y1="84"/>
 </atlas>

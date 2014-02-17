@@ -17,14 +17,15 @@ struct AniSprite
 		{
 			std::string Name;
 			float width, height;
-			float x1,x2,y1,y2;
+			float x0,x1,y0,y1;
 		};
 	};
 };
 struct Atlas
 {
 	Vector2 v2Size;
-	std::string sLocation;
+	std::string sSheet;
+	std::string sAnimations;
 };
 class AnimatedSprite :
 	public Sprite
