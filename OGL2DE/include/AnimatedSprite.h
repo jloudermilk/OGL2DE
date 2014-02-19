@@ -5,6 +5,19 @@
 #include <string>
 #include <tinyxml2.h>
 
+
+enum PlayType
+{
+	ONCE,
+	LOOP,
+	LOOPSECTION,
+	PINGPONG,
+	REVERSE,
+	RANDOMLOOP,
+	RANDOM,
+	SINGLE
+};
+
 struct AniSprite
 {
 	union{
@@ -27,6 +40,9 @@ struct Atlas
 	std::string sSheet;
 	std::string sAnimations;
 };
+
+typedef std::vector<std::string> frame;
+
 class AnimatedSprite :
 	public Sprite
 {
@@ -34,11 +50,18 @@ public:
 	AnimatedSprite(void);
 	~AnimatedSprite(void);
 	AnimatedSprite( const char* a_pSpriteSheet, GLFWwindow * window);
-
+	virtual void Draw();
+	void Update();
+	void SetAnimation(std::string animation,PlayType type);
+	void SetAnimation(std::string animation,PlayType type, std::string loopFrame);
+	void PlayAnimation();
 	void LoadSprites(const char* a_pSpriteSheet);
-
-	std::map<std::string,AniSprite> mFrames;
+	void LoadAnimations(const char* a_pAnimationSheet);
+	std::map<std::string,AniSprite> mSprites;
+	std::map<std::string,frame> mAnimations;
 	Atlas atlas;
+
+float elapsedTime;
 
 };
 

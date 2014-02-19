@@ -11,31 +11,30 @@ class Sprite: public Quad
 public:
 	Sprite(void);
 	~Sprite(void);
-Sprite( const char* a_pTexture, int a_iWidth, int a_iHeight, Vector4 a_v4Color,GLFWwindow* );
-	void Draw();
+	Sprite( const char* a_pTexture, int a_iWidth, int a_iHeight, Vector4 a_v4Color,GLFWwindow* );
+	void SetUVData();	
+	virtual void Draw();
 	void Input();
-	
+
+
 	void SetVertexData( Vertex* a_vertexData );
 	const Vertex* GetVertexData() const;
 
-private:
-	
-	Vertex m_aoVerts[4];
 
-	Matrix4* modelMatrix;
-	Matrix4* viewMatrix;
+protected:
 
 	Vector2 m_v2Scale;
 	Vector3 m_v3Position;
 	Vector4 m_v4SpriteColor;
 
-
-
 	Vector2 m_minUVCoords;
 	Vector2 m_maxUVCoords;
 	Vector2 m_uvScale;
-	Vector2 m_uvOffset;	
 
+	Vertex m_aoVerts[4];
+
+	Matrix4* modelMatrix;
+	Matrix4* viewMatrix;
 
 	unsigned int m_uiTexture;
 	GLFWwindow * GameWindow;
@@ -47,7 +46,11 @@ private:
 	int proj_location;
 	int view_location;
 
+
+
+
 };
+
 
 
 inline void	Sprite::SetVertexData( Vertex* a_vertexData )

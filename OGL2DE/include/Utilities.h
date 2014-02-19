@@ -20,7 +20,8 @@
 #include <iostream>
 #include <assert.h>
 #include <functional>
-
+#include <time.h>
+#include <sys\timeb.h>
 
 
 using namespace tbyte;
@@ -70,11 +71,8 @@ struct Vertex
 	void Orthographic(float a_fWidth, float a_fHeight, float a_fNear, float a_fFar,Matrix4 * mat);
 
 	void Perspective(float a_fUpFOV, float a_fAspectRatio, float a_fNear, float a_fFar,Matrix4 * mat);
-
-
-
-
-
-GLuint LoadTexture(const char* a_szTexture, unsigned int a_uiFormat , unsigned int* a_uiWidth , unsigned int* a_uiHeight, unsigned int* a_uiBPP  );
+	
+	double getDeltaTime();
+	void setDeltaTime();
 
 #endif

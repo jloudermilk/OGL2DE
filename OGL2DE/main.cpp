@@ -24,6 +24,7 @@ void glfw_error_callback (int error, const char* description) {
 
 int main()
 {
+	setDeltaTime();
 	//setup to log some GLFW stuff
 
 	char message[256];
@@ -86,9 +87,10 @@ int main()
 	Ortho =  new Matrix4();
 	Orthographic(0,g_gl_width,g_gl_height,0,0,-1,Ortho);
 
-	Sprite * tester = new Sprite("../resources/megamanx.png",24,27,Vector4(1,1,1,1),window); 
+	//Sprite * tester = new Sprite("../resources/megamanx.png",24,27,Vector4(1,1,1,1),window); 
 
-	AnimatedSprite test = AnimatedSprite("../resources/MegamanXSheet.xml",window);
+	AnimatedSprite * tester = new AnimatedSprite("../resources/MegamanXSheet.xml",window);
+
 
 
 	while (!glfwWindowShouldClose (window)) {
@@ -104,15 +106,14 @@ int main()
 		//resize window
 		glViewport (0, 0, g_gl_width, g_gl_height);
 
-		tester->Input();
-		tester->Draw();
+		tester->Update();
 
 
 		glfwPollEvents ();
 		// put the stuff we've been drawing onto the display
 		glfwSwapBuffers (window);
 
-
+		setDeltaTime();
 		//When do i exit?
 		if (GLFW_PRESS == glfwGetKey (window, GLFW_KEY_ESCAPE)) {
 			glfwSetWindowShouldClose (window, 1);
