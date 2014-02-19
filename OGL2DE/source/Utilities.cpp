@@ -3,18 +3,8 @@
 Matrix4  * Ortho;
 int g_gl_width = 1024;
 int g_gl_height = 720;
-float now, old;
 double deltaTime = 0;
- float GetMilliCount()
-{
-  // Something like GetTickCount but portable
-  // It rolls over every ~ 12.1 days (0x100000/24/60/60)
-  // Use GetMilliSpan to correct for rollover
-  timeb tb;
-  ftime( &tb );
-  float nCount = tb.millitm + (tb.time & 0xfffff);
-  return nCount;
-}
+
 
 	void ViewLookAt( Vector4& vCameraPos,  Vector4& vTargetPos,  Vector4& up_direction,Matrix4 * mat)
 	{
@@ -127,12 +117,10 @@ double deltaTime = 0;
 	{
 		return deltaTime;
 	}
-	void setDeltaTime()
+	void resetDeltaTime()
 	{
-		now =  GetMilliCount();
-
-		deltaTime = ((now - old));
-		old = now;
+		deltaTime =  glfwGetTime();
+		glfwSetTime(0);
 		
 	}
 

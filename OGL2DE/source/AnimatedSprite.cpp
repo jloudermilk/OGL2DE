@@ -21,18 +21,41 @@ AnimatedSprite::AnimatedSprite( const char* a_pSpriteSheet, GLFWwindow * window)
 	m_maxUVCoords = Vector2(mSprites["idle"].x1,mSprites["idle"].y1);
 	m_uvScale = Vector2(atlas.v2Size.m_fX,atlas.v2Size.m_fY);
 	*/
-	m_minUVCoords.m_fX = mSprites["idle"].y0;
-	m_minUVCoords.m_fY = mSprites["idle"].x0;
-	m_maxUVCoords.m_fX = mSprites["idle"].y1;
-	m_maxUVCoords.m_fY = mSprites["idle"].x1;
+
+
+	currentAnimation = "";
+	currentSprite = "idle";
+	currentFrame = 0;
+	currentPlayType = SINGLE;
 	m_uvScale.m_fX = atlas.v2Size.m_fY;
 	m_uvScale.m_fY	= atlas.v2Size.m_fX;
-
-
+	SetSprite();
 	SetUVData();
 
 
 }
+
+void AnimatedSprite::SetSprite()
+{
+	if(currentAnimation == "")
+	{
+	m_minUVCoords.m_fX = mSprites["idle"].y0;
+	m_minUVCoords.m_fY = mSprites["idle"].x0;
+	m_maxUVCoords.m_fX = mSprites["idle"].y1;
+	m_maxUVCoords.m_fY = mSprites["idle"].x1;
+	
+
+	}else
+	{
+		
+	m_minUVCoords.m_fX = mSprites[currentSprite].y0;
+	m_minUVCoords.m_fY = mSprites[currentSprite].x0;
+	m_maxUVCoords.m_fX = mSprites[currentSprite].y1;
+	m_maxUVCoords.m_fY = mSprites[currentSprite].x1;
+
+	}
+}
+
 
 void AnimatedSprite::LoadSprites(const char* a_pSpriteSheet)
 {
@@ -158,34 +181,86 @@ void AnimatedSprite::Draw()
 
 void AnimatedSprite::SetAnimation(std::string animation,PlayType type)
 {
+	currentAnimation = animation;
+	currentFrame = 0;
+	currentPlayType = type;
 	switch (type){
 	case ONCE:
+		
 		break;
 	case LOOP:
-		break;
-	case LOOPSECTION:
+		loopFrame =0;
 		break;
 	case PINGPONG:
 		break;
 	case REVERSE:
+		currentFrame = mAnimations[currentAnimation].size();
+		loopFrame = currentFrame;
 		break;
 	case RANDOMLOOP:
-		break;
 	case RANDOM:
+		srand(time(NULL));
+		currentFrame =  rand() % mAnimations[currentAnimation].size();
+		loopFrame = currentFrame;
 		break;
+	case LOOPSECTION:
+		SetAnimation(animation,type, 0);
 	case SINGLE:
 		break;
-	default
+	default:
 		break;
 	}
 
 }
-void AnimatedSprite::SetAnimation(std::string animation,PlayType type, std::string loopFrame)
+void AnimatedSprite::SetAnimation(std::string animation,PlayType type, int frame)
 {
+	switch(type)
+	{
+	case LOOPSECTION:
+	currentAnimation = animation;
+	currentFrame = 0;
+	currentPlayType = type;
+	loopFrame = frame;
+	default:
+		SetAnimation(animation,type);
+		break;
+	}
 
 }
 void AnimatedSprite::PlayAnimation()
 {
+	elapsedTime += getDeltaTime();
+
+	if(elapsedTime> (1/30)){
+		elapsedTime = 0;
+	switch (currentPlayType){
+	case ONCE:
+		break;
+	case LOOP:
+		loopFrame =0;
+		break;
+	case PINGPONG:
+		break;
+	case REVERSE:
+		currentFrame = mAnimations[currentAnimation].size();
+		loopFrame = currentFrame;
+		break;
+	case RANDOMLOOP:
+	case RANDOM:
+		srand(time(NULL));
+		currentFrame =  rand() % mAnimations[currentAnimation].size();
+		loopFrame = currentFrame;
+		break;
+	case LOOPSECTION:
+		SetAnimation(animation,type, 0);
+	case SINGLE:
+		break;
+	default:
+		break;
+	}
+	}
+
+
 
 }
 

@@ -20,8 +20,9 @@
 #include <iostream>
 #include <assert.h>
 #include <functional>
-#include <time.h>
-#include <sys\timeb.h>
+#include <cstdlib>
+
+
 
 
 using namespace tbyte;
@@ -61,6 +62,17 @@ struct Vertex
 	}
 };
 
+enum PlayType
+{
+	ONCE,
+	LOOP,
+	LOOPSECTION,
+	PINGPONG,
+	REVERSE,
+	RANDOMLOOP,
+	RANDOM,
+	SINGLE
+};
 
 
 
@@ -73,6 +85,6 @@ struct Vertex
 	void Perspective(float a_fUpFOV, float a_fAspectRatio, float a_fNear, float a_fFar,Matrix4 * mat);
 	
 	double getDeltaTime();
-	void setDeltaTime();
+	void resetDeltaTime();
 
 #endif

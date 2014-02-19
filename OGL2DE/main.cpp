@@ -24,7 +24,7 @@ void glfw_error_callback (int error, const char* description) {
 
 int main()
 {
-	setDeltaTime();
+	resetDeltaTime();
 	//setup to log some GLFW stuff
 
 	char message[256];
@@ -113,7 +113,7 @@ int main()
 		// put the stuff we've been drawing onto the display
 		glfwSwapBuffers (window);
 
-		setDeltaTime();
+		resetDeltaTime();
 		//When do i exit?
 		if (GLFW_PRESS == glfwGetKey (window, GLFW_KEY_ESCAPE)) {
 			glfwSetWindowShouldClose (window, 1);

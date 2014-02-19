@@ -6,17 +6,7 @@
 #include <tinyxml2.h>
 
 
-enum PlayType
-{
-	ONCE,
-	LOOP,
-	LOOPSECTION,
-	PINGPONG,
-	REVERSE,
-	RANDOMLOOP,
-	RANDOM,
-	SINGLE
-};
+
 
 struct AniSprite
 {
@@ -53,15 +43,21 @@ public:
 	virtual void Draw();
 	void Update();
 	void SetAnimation(std::string animation,PlayType type);
-	void SetAnimation(std::string animation,PlayType type, std::string loopFrame);
+	void SetAnimation(std::string animation,PlayType type, int frame);
 	void PlayAnimation();
+	void SetSprite();
 	void LoadSprites(const char* a_pSpriteSheet);
 	void LoadAnimations(const char* a_pAnimationSheet);
 	std::map<std::string,AniSprite> mSprites;
 	std::map<std::string,frame> mAnimations;
 	Atlas atlas;
 
-float elapsedTime;
+	std::string currentAnimation, currentSprite;
+	int currentFrame, loopFrame;
+	PlayType currentPlayType;
+
+
+double elapsedTime;
 
 };
 

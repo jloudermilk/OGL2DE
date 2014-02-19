@@ -225,7 +225,7 @@ void Sprite::Draw()
 	glUniform1i (tex_location, 0); 
 	
 	
-	modelMatrix->m_afArray[0]   = m_v2Scale.m_fX;
+	modelMatrix->m_afArray[0]  = m_v2Scale.m_fX;
 	modelMatrix->m_afArray[5]  = m_v2Scale.m_fY;
 	modelMatrix->m_afArray[12] = m_v3Position.m_fX;
 	modelMatrix->m_afArray[13] = m_v3Position.m_fY;
@@ -270,7 +270,11 @@ void Sprite::Input()
         }
 		 if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_C))
         {
-                 m_v2Scale *= 1.05;
+                 m_v2Scale *= 1 - getDeltaTime();
+        }
+		  if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_Z))
+        {
+                 m_v2Scale *= 1 + getDeltaTime();
         }
 
 }
