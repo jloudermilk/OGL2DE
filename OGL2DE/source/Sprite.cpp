@@ -214,6 +214,7 @@ Sprite::Sprite( const char* a_pTexture, int a_iWidth, int a_iHeight, Vector4 a_v
 	m_minUVCoords = Vector2( 0.f, 0.f );
 	m_maxUVCoords = Vector2( 1.f, 1.f );
 	m_uvScale = Vector2( 1.f, 1.f );
+	m_fZoom = 1.f;
 	
 }
 
@@ -225,6 +226,8 @@ void Sprite::Draw()
 	glUniform1i (tex_location, 0); 
 	
 	
+	 m_v2Scale *= m_fZoom;
+
 	modelMatrix->m_afArray[0]  = m_v2Scale.m_fX;
 	modelMatrix->m_afArray[5]  = m_v2Scale.m_fY;
 	modelMatrix->m_afArray[12] = m_v3Position.m_fX;
@@ -270,11 +273,11 @@ void Sprite::Input()
         }
 		 if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_C))
         {
-                 m_v2Scale *= 1 - getDeltaTime();
+                 m_fZoom *= 1 - getDeltaTime();
         }
 		  if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_Z))
         {
-                 m_v2Scale *= 1 + getDeltaTime();
+                 m_fZoom *= 1 + getDeltaTime();
         }
 
 }

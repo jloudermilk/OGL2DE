@@ -112,6 +112,7 @@ int main()
 		glfwPollEvents ();
 		// put the stuff we've been drawing onto the display
 		glfwSwapBuffers (window);
+	
 
 		resetDeltaTime();
 		//When do i exit?

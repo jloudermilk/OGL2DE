@@ -30,6 +30,7 @@ protected:
 	Vector2 m_minUVCoords;
 	Vector2 m_maxUVCoords;
 	Vector2 m_uvScale;
+	float m_fZoom;
 
 	Vertex m_aoVerts[4];
 

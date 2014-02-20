@@ -48,6 +48,7 @@ public:
 	void SetSprite();
 	void LoadSprites(const char* a_pSpriteSheet);
 	void LoadAnimations(const char* a_pAnimationSheet);
+	void Input();
 	std::map<std::string,AniSprite> mSprites;
 	std::map<std::string,frame> mAnimations;
 	Atlas atlas;

@@ -43,7 +43,9 @@ void AnimatedSprite::SetSprite()
 	m_minUVCoords.m_fY = mSprites["idle"].x0;
 	m_maxUVCoords.m_fX = mSprites["idle"].y1;
 	m_maxUVCoords.m_fY = mSprites["idle"].x1;
-	
+
+	m_v2Scale.m_fX =  mSprites["idle"].width;
+	m_v2Scale.m_fY =  mSprites["idle"].height;
 
 	}else
 	{
@@ -52,6 +54,8 @@ void AnimatedSprite::SetSprite()
 	m_minUVCoords.m_fY = mSprites[currentSprite].x0;
 	m_maxUVCoords.m_fX = mSprites[currentSprite].y1;
 	m_maxUVCoords.m_fY = mSprites[currentSprite].x1;
+	m_v2Scale.m_fX =  mSprites[currentSprite].width;
+	m_v2Scale.m_fY =  mSprites[currentSprite].height;
 
 	}
 }
@@ -144,40 +148,6 @@ std:printf("done");
 
 }
 
-void AnimatedSprite::Draw()
-{
-	glBlendFunc (m_uSourceBlendMode, m_uDestinationBlendMode);
-	glUseProgram(m_ShaderProgram);
-	glActiveTexture(GL_TEXTURE0);
-	glUniform1i (tex_location, 0); 
-
-
-	modelMatrix->m_afArray[0]  = m_v2Scale.m_fX;
-	modelMatrix->m_afArray[5]  = m_v2Scale.m_fY;
-	modelMatrix->m_afArray[12] = m_v3Position.m_fX;
-	modelMatrix->m_afArray[13] = m_v3Position.m_fY;
-	modelMatrix->m_afArray[14] = m_v3Position.m_fZ;
-
-
-	Matrix4 MVP =  (*Ortho * *modelMatrix) ;
-
-
-	//	glUniformMatrix4fv (matrix_location, 1, GL_FALSE, modelMatrix->m_afArray);
-	//	glUniformMatrix4fv (view_location, 1, GL_FALSE, viewMatrix->m_afArray);
-	//	glUniformMatrix4fv (proj_location, 1, GL_FALSE, Ortho->m_afArray);
-
-	
-	glUniformMatrix4fv (matrix_location, 1, GL_FALSE, MVP.m_afArray);
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	glBufferData(GL_ARRAY_BUFFER, 4* sizeof(Vertex), m_aoVerts,GL_DYNAMIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-	glBindVertexArray(m_VAO);
-
-
-	glDrawElements(GL_TRIANGLE_STRIP, 4,GL_UNSIGNED_INT,0);	
-}
 
 void AnimatedSprite::SetAnimation(std::string animation,PlayType type)
 {
@@ -230,14 +200,23 @@ void AnimatedSprite::SetAnimation(std::string animation,PlayType type, int frame
 void AnimatedSprite::PlayAnimation()
 {
 	elapsedTime += getDeltaTime();
-
-	if(elapsedTime> (1/30)){
+	float frames = (1.f/20.f);	if(elapsedTime > (double)frames){
 		elapsedTime = 0;
 	switch (currentPlayType){
 	case ONCE:
+		
 		break;
 	case LOOP:
-		loopFrame =0;
+		if(mAnimations.at(currentAnimation)[currentFrame] == mAnimations.at(currentAnimation).back())
+		{
+			currentFrame = loopFrame;
+			currentSprite = mAnimations.at(currentAnimation)[currentFrame];
+		}
+		else
+		{
+			currentFrame++;
+			currentSprite = mAnimations.at(currentAnimation)[currentFrame];
+		}
 		break;
 	case PINGPONG:
 		break;
@@ -252,22 +231,66 @@ void AnimatedSprite::PlayAnimation()
 		loopFrame = currentFrame;
 		break;
 	case LOOPSECTION:
-		SetAnimation(animation,type, 0);
 	case SINGLE:
 		break;
 	default:
 		break;
 	}
+	SetSprite();
+	SetUVData();
 	}
 
 
 
 }
+void AnimatedSprite::Draw()
+{
+	glBlendFunc (m_uSourceBlendMode, m_uDestinationBlendMode);
+	glUseProgram(m_ShaderProgram);
+	glActiveTexture(GL_TEXTURE0);
+	glUniform1i (tex_location, 0); 
+
+	m_v2Scale *= m_fZoom;
+
+	modelMatrix->m_afArray[0]  = m_v2Scale.m_fX;
+	modelMatrix->m_afArray[5]  = m_v2Scale.m_fY;
+	modelMatrix->m_afArray[12] = m_v3Position.m_fX;
+	modelMatrix->m_afArray[13] = m_v3Position.m_fY;
+	modelMatrix->m_afArray[14] = m_v3Position.m_fZ;
+
+
+	Matrix4 MVP =  (*Ortho * *modelMatrix) ;
+
+
+	//	glUniformMatrix4fv (matrix_location, 1, GL_FALSE, modelMatrix->m_afArray);
+	//	glUniformMatrix4fv (view_location, 1, GL_FALSE, viewMatrix->m_afArray);
+	//	glUniformMatrix4fv (proj_location, 1, GL_FALSE, Ortho->m_afArray);
+
+	
+	glUniformMatrix4fv (matrix_location, 1, GL_FALSE, MVP.m_afArray);
+
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	glBufferData(GL_ARRAY_BUFFER, 4* sizeof(Vertex), m_aoVerts,GL_DYNAMIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
+	glBindVertexArray(m_VAO);
+
+
+	glDrawElements(GL_TRIANGLE_STRIP, 4,GL_UNSIGNED_INT,0);	
+}
+void AnimatedSprite::Input()
+{
+	Sprite::Input();
+	if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_P))
+        {
+			SetAnimation("run",LOOP);
+		}
+}
 
 void AnimatedSprite::Update()
 {
-
+	PlayAnimation();
 	this->AnimatedSprite::Draw();
-	Input();
+	this->AnimatedSprite::Input();
 
 }
