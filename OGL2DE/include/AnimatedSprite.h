@@ -55,6 +55,7 @@ public:
 
 	std::string currentAnimation, currentSprite;
 	int currentFrame, loopFrame;
+	double m_dFrames;
 	PlayType currentPlayType;
 
 

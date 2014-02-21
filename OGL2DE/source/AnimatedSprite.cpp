@@ -9,20 +9,23 @@ AnimatedSprite::AnimatedSprite(void)
 AnimatedSprite::~AnimatedSprite(void)
 {
 }
-AnimatedSprite::AnimatedSprite( const char* a_pSpriteSheet, GLFWwindow * window) 
+AnimatedSprite::AnimatedSprite( const char* a_pSpriteSheet, GLFWwindow * window)
 {
+	GameWindow = window;
 	elapsedTime = 0;
 	LoadSprites(a_pSpriteSheet);
 	LoadAnimations(atlas.sAnimations.c_str());
-	this->Sprite::Sprite(atlas.sSheet.c_str(),mSprites["idle"].width,mSprites["idle"].height,Vector4(1,1,1,1),window);
+	SetTexture(atlas.sSheet.c_str());
 
 	/*This doesnt work for some reason
+	//I figured it out its in the math lib
 	m_minUVCoords = Vector2(mSprites["idle"].x0,mSprites["idle"].y0);
 	m_maxUVCoords = Vector2(mSprites["idle"].x1,mSprites["idle"].y1);
 	m_uvScale = Vector2(atlas.v2Size.m_fX,atlas.v2Size.m_fY);
 	*/
 
 
+	m_dFrames = (1.0/15.0);
 	currentAnimation = "";
 	currentSprite = "idle";
 	currentFrame = 0;
@@ -88,8 +91,8 @@ void AnimatedSprite::LoadSprites(const char* a_pSpriteSheet)
 
 	//currentNode = rootNode->FirstChild(); // set the current node to the root nodes first child
 	childElement = currentNode->ToElement();
-	atlas.v2Size.m_fX = childElement->IntAttribute("width"); 
-	atlas.v2Size.m_fY = childElement->IntAttribute("height");
+	atlas.v2Size.m_fX = (float)childElement->IntAttribute("width"); 
+	atlas.v2Size.m_fY = (float)childElement->IntAttribute("height");
 	atlas.sSheet = childElement->Attribute("sheet");
 	atlas.sAnimations = childElement->Attribute("animations");
 
@@ -153,6 +156,7 @@ void AnimatedSprite::SetAnimation(std::string animation,PlayType type)
 {
 	currentAnimation = animation;
 	currentFrame = 0;
+	loopFrame = 0;
 	currentPlayType = type;
 	switch (type){
 	case ONCE:
@@ -170,7 +174,7 @@ void AnimatedSprite::SetAnimation(std::string animation,PlayType type)
 	case RANDOMLOOP:
 	case RANDOM:
 		srand(time(NULL));
-		currentFrame =  rand() % mAnimations[currentAnimation].size();
+		currentFrame =  (unsigned int)(rand() % mAnimations[currentAnimation].size());
 		loopFrame = currentFrame;
 		break;
 	case LOOPSECTION:
@@ -191,6 +195,7 @@ void AnimatedSprite::SetAnimation(std::string animation,PlayType type, int frame
 	currentFrame = 0;
 	currentPlayType = type;
 	loopFrame = frame;
+	break;
 	default:
 		SetAnimation(animation,type);
 		break;
@@ -200,12 +205,18 @@ void AnimatedSprite::SetAnimation(std::string animation,PlayType type, int frame
 void AnimatedSprite::PlayAnimation()
 {
 	elapsedTime += getDeltaTime();
-	float frames = (1.f/20.f);	if(elapsedTime > (double)frames){
+	
+	if(elapsedTime > m_dFrames){
 		elapsedTime = 0;
 	switch (currentPlayType){
 	case ONCE:
-		
+		if(mAnimations.at(currentAnimation)[currentFrame] != mAnimations.at(currentAnimation).back())
+		{
+			currentFrame++;
+			currentSprite = mAnimations.at(currentAnimation)[currentFrame];
+		}
 		break;
+	case LOOPSECTION:
 	case LOOP:
 		if(mAnimations.at(currentAnimation)[currentFrame] == mAnimations.at(currentAnimation).back())
 		{
@@ -230,7 +241,6 @@ void AnimatedSprite::PlayAnimation()
 		currentFrame =  rand() % mAnimations[currentAnimation].size();
 		loopFrame = currentFrame;
 		break;
-	case LOOPSECTION:
 	case SINGLE:
 		break;
 	default:
@@ -250,12 +260,12 @@ void AnimatedSprite::Draw()
 	glActiveTexture(GL_TEXTURE0);
 	glUniform1i (tex_location, 0); 
 
-	m_v2Scale *= m_fZoom;
+	
 
-	modelMatrix->m_afArray[0]  = m_v2Scale.m_fX;
-	modelMatrix->m_afArray[5]  = m_v2Scale.m_fY;
+	modelMatrix->m_afArray[0]  = m_v2Scale.m_fX *m_fZoom;
+	modelMatrix->m_afArray[5]  = m_v2Scale.m_fY *m_fZoom;
 	modelMatrix->m_afArray[12] = m_v3Position.m_fX;
-	modelMatrix->m_afArray[13] = m_v3Position.m_fY;
+	modelMatrix->m_afArray[13] = m_v3Position.m_fY  + ( (m_v2Scale.m_fY *m_fZoom)/2.f);
 	modelMatrix->m_afArray[14] = m_v3Position.m_fZ;
 
 
@@ -283,7 +293,11 @@ void AnimatedSprite::Input()
 	Sprite::Input();
 	if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_P))
         {
-			SetAnimation("run",LOOP);
+			SetAnimation("idle to run",LOOPSECTION,1);
+		}
+	if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_T))
+        {
+			SetAnimation("teleport",ONCE);
 		}
 }
 

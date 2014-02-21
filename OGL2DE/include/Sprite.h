@@ -12,7 +12,8 @@ public:
 	Sprite(void);
 	~Sprite(void);
 	Sprite( const char* a_pTexture, int a_iWidth, int a_iHeight, Vector4 a_v4Color,GLFWwindow* );
-	void SetUVData();	
+	void SetUVData();
+	void SetTexture(const char * a_pTexture);
 	virtual void Draw();
 	void Input();
 

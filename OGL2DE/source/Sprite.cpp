@@ -2,6 +2,7 @@
 
 Sprite::Sprite(void)
 {
+		
 	LoadVertShader("../resources/exampleVert.glsl");
 	LoadFragShader("../resources/exampleFrag.glsl");
 	LinkShaders();
@@ -84,21 +85,6 @@ Sprite::Sprite(void)
 	m_uSourceBlendMode	= GL_SRC_ALPHA;
 	m_uDestinationBlendMode = GL_ONE_MINUS_SRC_ALPHA;
 
-	glGenTextures(1, &m_uiTexture);
-	glActiveTexture (GL_TEXTURE0);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-
-	tex_location = glGetUniformLocation (m_ShaderProgram, "diffuseTexture");
-
-	m_minUVCoords = Vector2( 0.f, 0.f );
-	m_maxUVCoords = Vector2( 1.f, 1.f );
-	m_uvScale = Vector2( 1.f, 1.f );
-	
 
 }
 
@@ -273,11 +259,11 @@ void Sprite::Input()
         }
 		 if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_C))
         {
-                 m_fZoom *= 1 - getDeltaTime();
+                 m_fZoom *= (1 - getDeltaTime());
         }
 		  if (GLFW_PRESS == glfwGetKey(GameWindow, GLFW_KEY_Z))
         {
-                 m_fZoom *= 1 + getDeltaTime();
+                 m_fZoom *=( 1 + getDeltaTime());
         }
 
 }
@@ -287,6 +273,33 @@ void	Sprite::SetUVData()
 	m_aoVerts[1].UV = Vector2(m_minUVCoords.m_fX/m_uvScale.m_fX,m_maxUVCoords.m_fY/m_uvScale.m_fY);
 	m_aoVerts[2].UV = Vector2(m_maxUVCoords.m_fX/m_uvScale.m_fX,m_minUVCoords.m_fY/m_uvScale.m_fY);
 	m_aoVerts[3].UV = Vector2(m_maxUVCoords.m_fX/m_uvScale.m_fX,m_maxUVCoords.m_fY/m_uvScale.m_fY);
+
+}
+
+void Sprite::SetTexture(const char * a_pTexture)
+{
+	
+	glGenTextures(1, &m_uiTexture);
+	glActiveTexture (GL_TEXTURE0);
+
+	int width, height;
+	unsigned char* image = SOIL_load_image(a_pTexture, &width, &height, 0, SOIL_LOAD_RGBA);
+	glBindTexture( GL_TEXTURE_2D,m_uiTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+	SOIL_free_image_data(image);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+
+	tex_location = glGetUniformLocation (m_ShaderProgram, "diffuseTexture");
+
+	m_minUVCoords = Vector2( 0.f, 0.f );
+	m_maxUVCoords = Vector2( 1.f, 1.f );
+	m_uvScale = Vector2( 1.f, 1.f );
+	m_fZoom = 1.f;
 
 }
 

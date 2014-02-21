@@ -18,9 +18,9 @@
 <sprite name ="run 3" x0 = "417" x1 ="450" y0 ="15" y1="48"/>
 <sprite name ="run 4" x0 = "451" x1 ="476" y0 ="15" y1="48"/>
 <sprite name ="run 5" x0 = "480" x1 ="501" y0 ="14" y1="48"/>
-<sprite name ="run 6" x0 = "0" x1 ="21" y0 ="51" y1="85"/>
-<sprite name ="run 7" x0 = "22" x1 ="46" y0 ="50" y1="85"/>
-<sprite name ="run 8" x0 = "50" x1 ="79" y0 ="51" y1="85"/>
-<sprite name ="run 9" x0 = "81" x1 ="114" y0 ="52" y1="85"/>
-<sprite name ="run 10" x0 = "115" x1 ="143" y0 ="52" y1="85"/>
+<!-- <sprite name ="run 6" x0 = "0" x1 ="21" y0 ="51" y1="85"/> this is a dupe frame -->
+<sprite name ="run 6" x0 = "22" x1 ="46" y0 ="50" y1="85"/>
+<sprite name ="run 7" x0 = "50" x1 ="79" y0 ="51" y1="85"/>
+<sprite name ="run 8" x0 = "81" x1 ="114" y0 ="52" y1="85"/>
+<sprite name ="run 9" x0 = "115" x1 ="143" y0 ="52" y1="85"/>
 </atlas>

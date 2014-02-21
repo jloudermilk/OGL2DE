@@ -91,6 +91,7 @@ int main()
 
 	AnimatedSprite * tester = new AnimatedSprite("../resources/MegamanXSheet.xml",window);
 
+	tester->SetAnimation("teleport",ONCE);
 
 
 	while (!glfwWindowShouldClose (window)) {
