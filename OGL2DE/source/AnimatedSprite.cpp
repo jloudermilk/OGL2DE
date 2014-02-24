@@ -184,6 +184,9 @@ void AnimatedSprite::SetAnimation(std::string animation,PlayType type)
 	default:
 		break;
 	}
+	currentSprite = mAnimations.at(currentAnimation)[currentFrame];
+	SetSprite();
+	SetUVData();
 
 }
 void AnimatedSprite::SetAnimation(std::string animation,PlayType type, int frame)
@@ -303,8 +306,11 @@ void AnimatedSprite::Input()
 
 void AnimatedSprite::Update()
 {
-	PlayAnimation();
-	this->AnimatedSprite::Draw();
+	
+	
 	this->AnimatedSprite::Input();
+	this->AnimatedSprite::Draw();
+	PlayAnimation();
+
 
 }
