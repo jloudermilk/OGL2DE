@@ -67,6 +67,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\FontManager.cpp" />
     <ClCompile Include="source\AnimatedSprite.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="source\GLLog.cpp" />
@@ -78,6 +79,7 @@
   <ItemGroup>
     <ClInclude Include="..\libs\TerrehByteMath\include\TerrehByteMath.h" />
     <ClInclude Include="..\libs\tinyxml2\include\tinyxml2.h" />
+    <ClInclude Include="include\FontManager.h" />
     <ClInclude Include="include\AnimatedSprite.h" />
     <ClInclude Include="include\GLLog.h" />
     <ClInclude Include="include\Quad.h" />
