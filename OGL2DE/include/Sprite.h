@@ -12,12 +12,11 @@ public:
 	Sprite(void);
 	~Sprite(void);
 	Sprite( const char* a_pTexture, int a_iWidth, int a_iHeight, Vector4 a_v4Color,GLFWwindow* );
-	void SetUVData();
-	void SetTexture(const char * a_pTexture);
+	
 	virtual void Draw();
 	void Input();
 
-
+	void SetPosition(Vector3 a_v3Pos);
 	void SetVertexData( Vertex* a_vertexData );
 	const Vertex* GetVertexData() const;
 
@@ -27,30 +26,6 @@ protected:
 	Vector2 m_v2Scale;
 	Vector3 m_v3Position;
 	Vector4 m_v4SpriteColor;
-
-	Vector2 m_minUVCoords;
-	Vector2 m_maxUVCoords;
-	Vector2 m_uvScale;
-	float m_fZoom;
-
-	Vertex m_aoVerts[4];
-
-	Matrix4* modelMatrix;
-	Matrix4* viewMatrix;
-
-	unsigned int m_uiTexture;
-	GLFWwindow * GameWindow;
-	//used later
-	unsigned int	m_uSourceBlendMode;
-	unsigned int	m_uDestinationBlendMode;
-	int tex_location;
-	int matrix_location;
-	int proj_location;
-	int view_location;
-
-
-
-
 };
 
 

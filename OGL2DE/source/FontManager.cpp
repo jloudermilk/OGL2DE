@@ -3,6 +3,11 @@
 
 FontManager::FontManager(void)
 {
+	
+	
+
+
+
 }
 
 
@@ -105,5 +110,20 @@ std:printf("done");
 }
 void FontManager::DrawString(std::string str,Vector2 pos,float scale)
 {
+	glBlendFunc (instancedSprite.m_uSourceBlendMode, instancedSprite.m_uDestinationBlendMode);
+	glUseProgram(instancedSprite.m_ShaderProgram);
+
+	glActiveTexture(GL_TEXTURE0);
+	glUniform1i (instancedSprite.tex_location, 0); 
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, instancedSprite.m_EBO);
+	glBindVertexArray(instancedSprite.m_VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, instancedSprite.m_VBO);
+
+	//Put Data into buffers
+	glBufferData(GL_ARRAY_BUFFER, 4* sizeof(Vertex), instancedSprite.m_aoVerts, GL_STATIC_DRAW);
+
+	glDrawElements(GL_TRIANGLE_STRIP, 4,GL_UNSIGNED_INT,0);	
+
 
 }

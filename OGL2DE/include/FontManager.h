@@ -34,6 +34,7 @@ public:
 	void LoadFont(const char * a_pFontSheet);
 	void DrawString(std::string str,Vector2 pos,float scale);
 
+	Sprite instancedSprite;
 	Font FontAtlas;
 	std::map<char,Char> charMap;
 	std::vector<Char> DrawList;

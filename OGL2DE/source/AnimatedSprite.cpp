@@ -13,9 +13,15 @@ AnimatedSprite::AnimatedSprite( const char* a_pSpriteSheet, GLFWwindow * window)
 {
 	GameWindow = window;
 	elapsedTime = 0;
+	LoadVertShader("../resources/exampleVert.glsl");
+	LoadFragShader("../resources/exampleFrag.glsl");
+	LinkShaders();
+	GLint uvAttrib = glGetAttribLocation(m_ShaderProgram,"texcoord");
+	glEnableVertexAttribArray(uvAttrib);
+	matrix_location = glGetUniformLocation (m_ShaderProgram, "matrix");
 	LoadSprites(a_pSpriteSheet);
 	LoadAnimations(atlas.sAnimations.c_str());
-	SetTexture(atlas.sSheet.c_str());
+	LoadTexture(atlas.sSheet.c_str());
 
 	/*This doesnt work for some reason
 	//I figured it out its in the math lib
@@ -34,6 +40,7 @@ AnimatedSprite::AnimatedSprite( const char* a_pSpriteSheet, GLFWwindow * window)
 	m_uvScale.m_fY	= atlas.v2Size.m_fX;
 	SetSprite();
 	SetUVData();
+
 
 
 }
@@ -76,10 +83,10 @@ void AnimatedSprite::LoadSprites(const char* a_pSpriteSheet)
 
 	- -	Element "sprite"		child of atlas Element
 	- - - Attribute "name"		attribute of sprite Element
-	- - - Attribute "x0"		attribute of sprite Element
-	- - - Attribute "x1"		attribute of sprite Element
-	- - - Attribute "y0"		attribute of sprite Element
-	- - - Attribute "y1"		attribute of sprite Element
+	- - - Attribute "x"			attribute of sprite Element
+	- - - Attribute "y"			attribute of sprite Element
+	- - - Attribute "width"		attribute of sprite Element
+	- - - Attribute "height"	attribute of sprite Element
 	*/
 	tinyxml2::XMLDocument doc;
 	tinyxml2::XMLNode *rootNode, *currentNode;
@@ -258,10 +265,7 @@ void AnimatedSprite::PlayAnimation()
 }
 void AnimatedSprite::Draw()
 {
-	glBlendFunc (m_uSourceBlendMode, m_uDestinationBlendMode);
-	glUseProgram(m_ShaderProgram);
-	glActiveTexture(GL_TEXTURE0);
-	glUniform1i (tex_location, 0); 
+
 
 	
 
@@ -272,7 +276,7 @@ void AnimatedSprite::Draw()
 	modelMatrix->m_afArray[14] = m_v3Position.m_fZ;
 
 
-	Matrix4 MVP =  (*Ortho * *modelMatrix) ;
+	*MVP =  (*Ortho * *modelMatrix) ;
 
 
 	//	glUniformMatrix4fv (matrix_location, 1, GL_FALSE, modelMatrix->m_afArray);
@@ -280,16 +284,8 @@ void AnimatedSprite::Draw()
 	//	glUniformMatrix4fv (proj_location, 1, GL_FALSE, Ortho->m_afArray);
 
 	
-	glUniformMatrix4fv (matrix_location, 1, GL_FALSE, MVP.m_afArray);
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-	glBufferData(GL_ARRAY_BUFFER, 4* sizeof(Vertex), m_aoVerts,GL_DYNAMIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-	glBindVertexArray(m_VAO);
-
-
-	glDrawElements(GL_TRIANGLE_STRIP, 4,GL_UNSIGNED_INT,0);	
+	glUniformMatrix4fv (matrix_location, 1, GL_FALSE, MVP->m_afArray);
+	Quad::Draw();
 }
 void AnimatedSprite::Input()
 {
@@ -302,6 +298,7 @@ void AnimatedSprite::Input()
         {
 			SetAnimation("teleport",ONCE);
 		}
+
 }
 
 void AnimatedSprite::Update()

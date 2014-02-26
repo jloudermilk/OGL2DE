@@ -4,5 +4,5 @@
 	out vec4 outColour;
 	uniform sampler2D diffuseTexture;
 void main () {
-	outColour =  texture2D(diffuseTexture, UV) ;
+	outColour =  texture2D(diffuseTexture, UV) *vColor;
 }

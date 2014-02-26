@@ -92,7 +92,7 @@ int main()
 	FontManager * fntMan = new FontManager();
 	fntMan->LoadFont("../resources/NESish.xml");
 
-
+	//Quad q = Quad();
 	AnimatedSprite * tester = new AnimatedSprite("../resources/MegamanXSheet.xml",window);
 
 	tester->SetAnimation("teleport",ONCE);
@@ -113,8 +113,10 @@ int main()
 		glViewport (0, 0, g_gl_width, g_gl_height);
 
 		tester->Update();
-
-
+		//tester->Input();
+		//tester->Draw();
+		
+	//	q.Draw();
 		glfwPollEvents ();
 		// put the stuff we've been drawing onto the display
 		glfwSwapBuffers (window);

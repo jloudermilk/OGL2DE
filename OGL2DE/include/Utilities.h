@@ -7,6 +7,7 @@
 
 //Terry's Math lib
 #include <TerrehByteMath.h>
+#include <SOIL.h>
 //other helper functions
 #include "GLLog.h"
 #include "TextFileReader.h"
