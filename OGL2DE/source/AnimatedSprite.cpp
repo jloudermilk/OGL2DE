@@ -104,7 +104,8 @@ void AnimatedSprite::LoadSprites(const char* a_pSpriteSheet)
 	atlas.sAnimations = childElement->Attribute("animations");
 
 
-	for (childElement = currentNode->FirstChildElement(); childElement != NULL; childElement = childElement->NextSiblingElement())
+	for (childElement = currentNode->FirstChildElement(); 
+		childElement != NULL; childElement = childElement->NextSiblingElement())
 	{
 		str = childElement->Attribute("name");
 		mSprites[str].Name = str;
@@ -142,11 +143,13 @@ void AnimatedSprite::LoadAnimations(const char* a_pAnimationSheet)
 
 	//currentNode = rootNode->FirstChild(); // set the current node to the root nodes first child
 
-	for (childElement = currentNode->ToElement(); childElement != NULL; childElement = childElement->NextSiblingElement())
+	for (childElement = currentNode->ToElement(); 
+		childElement != NULL; childElement = childElement->NextSiblingElement())
 	{
 		aniName = childElement->Attribute("name");
 		int i = 0;
-		for (child = childElement->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+		for (child = childElement->FirstChildElement(); 
+			child != NULL; child = child->NextSiblingElement())
 		{
 
 			str = child->Attribute("name");

@@ -3,9 +3,14 @@
 
 FontManager::FontManager(void)
 {
-	
-	
+	instancedSprite.LoadVertShader("../resources/fontVert.glsl");
+	instancedSprite.LoadFragShader("../resources/fontFrag.glsl");
+	instancedSprite.LinkShaders();
 
+	glGenBuffers(1,&PositionBuffer);
+	glGenBuffers(1,&ColorBuffer);
+	glGenBuffers(1,&UVBuffer);
+	glGenBuffers(1,&MatrixBuffer);
 
 
 }
@@ -104,12 +109,24 @@ void FontManager::LoadFont(const char * a_pFontSheet)
 		charMap[ch].height =childElement->IntAttribute("height");
 		charMap[ch].x1 = charMap[ch].x0 + charMap[ch].width;	
 		charMap[ch].y1 = charMap[ch].y0 + charMap[ch].height;
+		charMap[ch].offset = 0;
 		}
-	
-std:printf("done");
+	//need to add a space
+	charMap[' '].Name = ' ';
+	charMap[ch].x0 = 0;
+	charMap[ch].y0 = 0;
+	charMap[ch].width = 14;
+	charMap[ch].height =14;
+	charMap[ch].x1 = 0;	
+	charMap[ch].y1 = 0;
+	charMap[ch].offset = 0;
+
 }
 void FontManager::DrawString(std::string str,Vector2 pos,float scale)
 {
+	LoadString(str,pos,scale);
+
+
 	glBlendFunc (instancedSprite.m_uSourceBlendMode, instancedSprite.m_uDestinationBlendMode);
 	glUseProgram(instancedSprite.m_ShaderProgram);
 
@@ -123,7 +140,17 @@ void FontManager::DrawString(std::string str,Vector2 pos,float scale)
 	//Put Data into buffers
 	glBufferData(GL_ARRAY_BUFFER, 4* sizeof(Vertex), instancedSprite.m_aoVerts, GL_STATIC_DRAW);
 
-	glDrawElements(GL_TRIANGLE_STRIP, 4,GL_UNSIGNED_INT,0);	
+	glDrawElementsInstanced(GL_TRIANGLE_STRIP, 4,GL_UNSIGNED_INT,0,2);	
 
 
+}
+void FontManager::LoadString(std::string str,Vector2 pos,float scale)
+{
+	char c;
+	for(CharCount = 0; CharCount < str.length();CharCount++)
+	{
+		c = str.at(CharCount);
+		DrawList.push_back( charMap[c]);
+
+	}
 }

@@ -1,5 +1,5 @@
 #version 330
-in UV;
+in vec2 UV;
 uniform sampler2D tex;
 uniform vec4 textColor;
 out vec4 fragColor;

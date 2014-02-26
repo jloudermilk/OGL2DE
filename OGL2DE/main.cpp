@@ -88,14 +88,9 @@ int main()
 	Ortho =  new Matrix4();
 	Orthographic(0,g_gl_width,g_gl_height,0,0,-1,Ortho);
 
-	//Sprite * tester = new Sprite("../resources/megamanx.png",24,27,Vector4(1,1,1,1),window); 
 	FontManager * fntMan = new FontManager();
 	fntMan->LoadFont("../resources/NESish.xml");
-
-	//Quad q = Quad();
-	AnimatedSprite * tester = new AnimatedSprite("../resources/MegamanXSheet.xml",window);
-
-	tester->SetAnimation("teleport",ONCE);
+	fntMan->DrawString("Hello World!",Vector2(g_gl_width/2,g_gl_height/2),5);
 
 	
 
@@ -112,11 +107,6 @@ int main()
 		//resize window
 		glViewport (0, 0, g_gl_width, g_gl_height);
 
-		tester->Update();
-		//tester->Input();
-		//tester->Draw();
-		
-	//	q.Draw();
 		glfwPollEvents ();
 		// put the stuff we've been drawing onto the display
 		glfwSwapBuffers (window);
