@@ -90,7 +90,7 @@ int main()
 
 	FontManager * fntMan = new FontManager();
 	fntMan->LoadFont("../resources/NESish.xml");
-	fntMan->DrawString("Hello World!",Vector2(g_gl_width/2,g_gl_height/2),5);
+	//fntMan->DrawString("Hello World!",Vector2(g_gl_width/2,g_gl_height/2),5);
 
 	
 
@@ -106,7 +106,7 @@ int main()
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//resize window
 		glViewport (0, 0, g_gl_width, g_gl_height);
-
+		fntMan->DrawString("H",Vector2(g_gl_width/2,g_gl_height/2),5);
 		glfwPollEvents ();
 		// put the stuff we've been drawing onto the display
 		glfwSwapBuffers (window);

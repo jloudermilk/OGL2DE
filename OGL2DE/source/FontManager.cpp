@@ -3,10 +3,12 @@
 
 FontManager::FontManager(void)
 {
-	instancedSprite.LoadVertShader("../resources/fontVert.glsl");
-	instancedSprite.LoadFragShader("../resources/fontFrag.glsl");
-	instancedSprite.LinkShaders();
 
+
+/*	iSprite.LoadVertShader("../resources/fontVert.glsl");
+	iSprite.LoadFragShader("../resources/fontFrag.glsl");
+	iSprite.LinkShaders();
+	*/
 	glGenBuffers(1,&PositionBuffer);
 	glGenBuffers(1,&ColorBuffer);
 	glGenBuffers(1,&UVBuffer);
@@ -53,7 +55,11 @@ void FontManager::LoadFont(const char * a_pFontSheet)
 	FontAtlas.v2Size.m_fX = (float)childElement->IntAttribute("width"); 
 	FontAtlas.v2Size.m_fY = (float)childElement->IntAttribute("height");
 	
-	
+	iSprite.m_uvScale = FontAtlas.v2Size;
+	iSprite.LoadTexture(FontAtlas.sSheet.c_str());
+	GLint uvAttrib = glGetAttribLocation(iSprite.m_ShaderProgram,"texcoord");
+	glEnableVertexAttribArray(uvAttrib);
+	iSprite.matrix_location = glGetUniformLocation (iSprite.m_ShaderProgram, "matrix");
 
 	for (childElement = currentNode->FirstChildElement(); childElement != NULL; childElement = childElement->NextSiblingElement())
 	{
@@ -120,27 +126,38 @@ void FontManager::LoadFont(const char * a_pFontSheet)
 	charMap[ch].x1 = 0;	
 	charMap[ch].y1 = 0;
 	charMap[ch].offset = 0;
-
+	
 }
 void FontManager::DrawString(std::string str,Vector2 pos,float scale)
 {
 	LoadString(str,pos,scale);
-
-
-	glBlendFunc (instancedSprite.m_uSourceBlendMode, instancedSprite.m_uDestinationBlendMode);
-	glUseProgram(instancedSprite.m_ShaderProgram);
+	glBlendFunc (iSprite.m_uSourceBlendMode, iSprite.m_uDestinationBlendMode);
+	glUseProgram(iSprite.m_ShaderProgram);
 
 	glActiveTexture(GL_TEXTURE0);
-	glUniform1i (instancedSprite.tex_location, 0); 
+	glUniform1i (iSprite.tex_location, 0); 
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, instancedSprite.m_EBO);
-	glBindVertexArray(instancedSprite.m_VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, instancedSprite.m_VBO);
+		iSprite.SetScale(scale);
 
-	//Put Data into buffers
-	glBufferData(GL_ARRAY_BUFFER, 4* sizeof(Vertex), instancedSprite.m_aoVerts, GL_STATIC_DRAW);
+	Char c;
 
-	glDrawElementsInstanced(GL_TRIANGLE_STRIP, 4,GL_UNSIGNED_INT,0,2);	
+	for(int i = 0; i < DrawList.size();i++)
+	{
+		c = DrawList[i];
+		iSprite.SetPosition(Vector3(pos.m_fX,pos.m_fY,0.f));
+		iSprite.m_minUVCoords = Vector2(c.x0,c.y0) ;
+		iSprite.m_maxUVCoords = Vector2(c.x1,c.y1) ;
+	
+		iSprite.SetUVData();
+
+		iSprite.Draw();
+
+	}
+
+
+	
+
+
 
 
 }

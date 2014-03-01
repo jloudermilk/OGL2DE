@@ -131,6 +131,14 @@ void Sprite::SetPosition(Vector3 a_v3Pos)
 	Vector3 m_v3Position = a_v3Pos;
 
 }
-
+void Sprite::SetScale(Vector2 a_v2Scale)
+{
+	m_v2Scale = a_v2Scale;
+}
+void Sprite::SetScale(float a_fScale)
+{
+	m_v2Scale.m_fX = a_fScale;
+	m_v2Scale.m_fY = a_fScale;
+}
 
 

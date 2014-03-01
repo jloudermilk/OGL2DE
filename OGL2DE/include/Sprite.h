@@ -17,6 +17,8 @@ public:
 	void Input();
 
 	void SetPosition(Vector3 a_v3Pos);
+	void SetScale(Vector2 a_v2Scale);
+	void SetScale(float a_fScale);
 	void SetVertexData( Vertex* a_vertexData );
 	const Vertex* GetVertexData() const;
 

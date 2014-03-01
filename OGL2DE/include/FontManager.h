@@ -2,7 +2,7 @@
 #define _FONT_MANAGER_H_
 #include <Utilities.h>
 #include <tinyxml2.h>
-#include <Sprite.h>
+#include <AnimatedSprite.h>
 
 struct Char
 {
@@ -38,11 +38,14 @@ public:
 	//private?
 	void LoadString(std::string str,Vector2 pos,float scale);
 
-	Sprite instancedSprite;
+	AnimatedSprite iSprite;
 	Font FontAtlas;
 	std::map<char,Char> charMap;
 	std::vector<Char> DrawList;
 	int CharCount;
+
+
+	///future use
 	GLuint PositionBuffer;
 	GLuint ColorBuffer;
 	GLuint UVBuffer;

@@ -6,7 +6,7 @@ Quad::Quad(void)
 
 	
 	//Default Shaders for Default constructor
-
+	m_fZoom = 1;
 	const char * VertexShader =	// Vertex Shaders deal with objects in 3D space
 		"#version 330\n"
 		"in vec3 position;"
