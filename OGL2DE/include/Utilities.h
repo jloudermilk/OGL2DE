@@ -34,7 +34,7 @@ extern Matrix4 * Ortho;
 // keep track of window size for things like the viewport and the mouse cursor
 extern int g_gl_width;
 extern int g_gl_height;
-
+extern double fps;
 
 
 struct Vertex

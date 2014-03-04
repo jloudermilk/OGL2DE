@@ -54,9 +54,10 @@ void FontManager::LoadFont(const char * a_pFontSheet)
 	FontAtlas.sSheet = childElement->Attribute("imagePath");
 	FontAtlas.v2Size.m_fX = (float)childElement->IntAttribute("width"); 
 	FontAtlas.v2Size.m_fY = (float)childElement->IntAttribute("height");
+	FontAtlas.fKerning = (float)childElement->IntAttribute("kerning");
 	
-	iSprite.m_uvScale = FontAtlas.v2Size;
 	iSprite.LoadTexture(FontAtlas.sSheet.c_str());
+	iSprite.m_uvScale = FontAtlas.v2Size;
 	GLint uvAttrib = glGetAttribLocation(iSprite.m_ShaderProgram,"texcoord");
 	glEnableVertexAttribArray(uvAttrib);
 	iSprite.matrix_location = glGetUniformLocation (iSprite.m_ShaderProgram, "matrix");
@@ -115,17 +116,29 @@ void FontManager::LoadFont(const char * a_pFontSheet)
 		charMap[ch].height =childElement->IntAttribute("height");
 		charMap[ch].x1 = charMap[ch].x0 + charMap[ch].width;	
 		charMap[ch].y1 = charMap[ch].y0 + charMap[ch].height;
-		charMap[ch].offset = 0;
+		charMap[ch].offset = childElement->IntAttribute("offset");
 		}
 	//need to add a space
-	charMap[' '].Name = ' ';
+	//these could get moved to the xml file
+	ch = ' ';
+	charMap[ch].Name = " ";
 	charMap[ch].x0 = 0;
 	charMap[ch].y0 = 0;
-	charMap[ch].width = 14;
-	charMap[ch].height =14;
+	charMap[ch].width = 8;
+	charMap[ch].height =8;
 	charMap[ch].x1 = 0;	
 	charMap[ch].y1 = 0;
 	charMap[ch].offset = 0;
+	ch = '\n';
+	charMap[ch].Name = "&ret";
+	charMap[ch].x0 = 0;
+	charMap[ch].y0 = 0;
+	charMap[ch].width = 0;
+	charMap[ch].height =0;
+	charMap[ch].x1 = 0;	
+	charMap[ch].y1 = 0;
+	charMap[ch].offset = 0;
+	
 	
 }
 void FontManager::DrawString(std::string str,Vector2 pos,float scale)
@@ -137,37 +150,66 @@ void FontManager::DrawString(std::string str,Vector2 pos,float scale)
 	glActiveTexture(GL_TEXTURE0);
 	glUniform1i (iSprite.tex_location, 0); 
 
-		iSprite.SetScale(scale);
+	iSprite.SetScale(scale);
 
 	Char c;
 
+	float kerning = 0;
+	float newPos = 0;
 	for(int i = 0; i < DrawList.size();i++)
 	{
 		c = DrawList[i];
-		iSprite.SetPosition(Vector3(pos.m_fX,pos.m_fY,0.f));
+ 		if(i != 0){
+			if(c.Name == "&ret"){
+			pos.m_fX -= 20;
+			newPos = pos.m_fY;
+			}
+			else{
+			newPos = iSprite.GetPosition().m_fX + c.width/2 + DrawList[i-1].width/2 + FontAtlas.fKerning;
+			}
+			iSprite.SetPosition(Vector3(newPos,pos.m_fX,0.f));
+	}
+		else
+		iSprite.SetPosition(Vector3(pos.m_fY,pos.m_fX,0.f));
+
 		iSprite.m_minUVCoords = Vector2(c.x0,c.y0) ;
 		iSprite.m_maxUVCoords = Vector2(c.x1,c.y1) ;
+		iSprite.SetScale(c.width*scale,c.height*scale);
+
+		//Set scale of each char
 	
 		iSprite.SetUVData();
 
-		iSprite.Draw();
+		iSprite.modelMatrix->m_afArray[0]  = iSprite.GetScale().m_fX *iSprite.m_fZoom;
+		iSprite.modelMatrix->m_afArray[5]  = iSprite.GetScale().m_fY *iSprite.m_fZoom;
+		iSprite.modelMatrix->m_afArray[12] = iSprite.GetPosition().m_fX;
+		iSprite.modelMatrix->m_afArray[13] = iSprite.GetPosition().m_fY  - (c.offset *iSprite.m_fZoom); //this is going to need to change for and use the offest variable from each char
+		iSprite.modelMatrix->m_afArray[14] = iSprite.GetPosition().m_fZ;
 
-	}
 
+	*iSprite.MVP =  (*Ortho * *iSprite.modelMatrix) ;
+
+
+	//	glUniformMatrix4fv (matrix_location, 1, GL_FALSE, modelMatrix->m_afArray);
+	//	glUniformMatrix4fv (view_location, 1, GL_FALSE, viewMatrix->m_afArray);
+	//	glUniformMatrix4fv (proj_location, 1, GL_FALSE, Ortho->m_afArray);
 
 	
+	glUniformMatrix4fv (iSprite.matrix_location, 1, GL_FALSE, iSprite.MVP->m_afArray);
+	iSprite.Quad::Draw();
+	kerning = c.width/2 + FontAtlas.fKerning;
 
-
-
+	}
 
 }
 void FontManager::LoadString(std::string str,Vector2 pos,float scale)
 {
+	DrawList.clear();
 	char c;
 	for(CharCount = 0; CharCount < str.length();CharCount++)
 	{
 		c = str.at(CharCount);
-		DrawList.push_back( charMap[c]);
+		DrawList.push_back(charMap[c]);
 
 	}
 }

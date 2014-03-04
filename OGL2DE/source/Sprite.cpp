@@ -128,7 +128,19 @@ void Sprite::Input()
 }
 void Sprite::SetPosition(Vector3 a_v3Pos)
 {
-	Vector3 m_v3Position = a_v3Pos;
+	m_v3Position = a_v3Pos;
+
+}
+
+void Sprite::SetPosition(float a_fX, float a_fY)
+{
+	m_v3Position.m_fX  = a_fX;
+	m_v3Position.m_fY  = a_fY;
+
+}
+Vector3 Sprite::GetPosition()
+{
+	return m_v3Position;
 
 }
 void Sprite::SetScale(Vector2 a_v2Scale)
@@ -141,4 +153,13 @@ void Sprite::SetScale(float a_fScale)
 	m_v2Scale.m_fY = a_fScale;
 }
 
+void Sprite::SetScale(float a_fScaleX,float a_fScaleY)
+{
+	m_v2Scale.m_fX = a_fScaleX;
+	m_v2Scale.m_fY = a_fScaleY;
+}
+Vector2 Sprite::GetScale()
+{
+	return m_v2Scale;
 
+}

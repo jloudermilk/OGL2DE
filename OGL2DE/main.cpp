@@ -23,6 +23,7 @@ void glfw_error_callback (int error, const char* description) {
 	gl_log (description, __FILE__, __LINE__);
 }
 
+
 int main()
 {
 	resetDeltaTime();
@@ -56,7 +57,7 @@ int main()
 	//this lets us the the video mode for the monitor we pass
 	const GLFWvidmode* vmode = glfwGetVideoMode (mon);
 	GLFWwindow* window = glfwCreateWindow (
-		vmode->width, vmode->height, "Extended GL Init",NULL/* mon*/, NULL
+		vmode->width, vmode->height, "",NULL/* mon*/, NULL
 		);
 	glfwSetWindowSize(window, g_gl_width, g_gl_height);
 
@@ -90,11 +91,11 @@ int main()
 
 	FontManager * fntMan = new FontManager();
 	fntMan->LoadFont("../resources/NESish.xml");
-	//fntMan->DrawString("Hello World!",Vector2(g_gl_width/2,g_gl_height/2),5);
 
 	
 
 	while (!glfwWindowShouldClose (window)) {
+		
 		glEnable(GL_ALPHA_TEST);
 		glAlphaFunc(GL_GREATER, .5);
 		glEnable(GL_ALPHA);
@@ -106,12 +107,17 @@ int main()
 		glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//resize window
 		glViewport (0, 0, g_gl_width, g_gl_height);
-		fntMan->DrawString("H",Vector2(g_gl_width/2,g_gl_height/2),5);
+		char tmp[128];
+		sprintf (tmp, "opengl @ fps: %.2f", fps);
+		glfwSetWindowTitle (window, tmp);
+		fntMan->DrawString("Hello,\nMy name is Inigo Montoya.\nYou killed my father.\nPrepare to die.",Vector2(10,g_gl_height/2),1);
+		//fntMan->DrawString("Hello",Vector2(10,g_gl_height/2),1);
 		glfwPollEvents ();
 		// put the stuff we've been drawing onto the display
 		glfwSwapBuffers (window);
 	
-
+	
+		
 		resetDeltaTime();
 		//When do i exit?
 		if (GLFW_PRESS == glfwGetKey (window, GLFW_KEY_ESCAPE)) {

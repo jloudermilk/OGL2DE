@@ -27,6 +27,7 @@ struct Font
 {
 	Vector2 v2Size;
 	std::string sSheet;
+	float fKerning;
 };
 class FontManager
 {
@@ -38,7 +39,7 @@ public:
 	//private?
 	void LoadString(std::string str,Vector2 pos,float scale);
 
-	AnimatedSprite iSprite;
+	Sprite iSprite;
 	Font FontAtlas;
 	std::map<char,Char> charMap;
 	std::vector<Char> DrawList;

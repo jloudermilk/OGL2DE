@@ -1,9 +1,11 @@
 #include <Utilities.h>
 
 Matrix4  * Ortho;
-int g_gl_width = 1024;
-int g_gl_height = 720;
+int g_gl_width = 640;
+int g_gl_height = 480;
 double deltaTime = 0;
+int frames;
+double fps, elapsedTime;
 
 
 	void ViewLookAt( Vector4& vCameraPos,  Vector4& vTargetPos,  Vector4& up_direction,Matrix4 * mat)
@@ -119,7 +121,16 @@ double deltaTime = 0;
 	}
 	void resetDeltaTime()
 	{
+
 		deltaTime =  glfwGetTime();
+		elapsedTime += deltaTime;
+		frames++;
+		if(elapsedTime > 0.25)
+		{
+			fps = (double)frames/elapsedTime;
+			elapsedTime =0;
+			frames = 0;
+		}
 		glfwSetTime(0);
 		
 	}
