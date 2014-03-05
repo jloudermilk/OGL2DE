@@ -269,9 +269,6 @@ void AnimatedSprite::PlayAnimation()
 void AnimatedSprite::Draw()
 {
 
-
-	
-
 	modelMatrix->m_afArray[0]  = m_v2Scale.m_fX *m_fZoom;
 	modelMatrix->m_afArray[5]  = m_v2Scale.m_fY *m_fZoom;
 	modelMatrix->m_afArray[12] = m_v3Position.m_fX;
@@ -286,8 +283,6 @@ void AnimatedSprite::Draw()
 	//	glUniformMatrix4fv (view_location, 1, GL_FALSE, viewMatrix->m_afArray);
 	//	glUniformMatrix4fv (proj_location, 1, GL_FALSE, Ortho->m_afArray);
 
-	
-	glUniformMatrix4fv (matrix_location, 1, GL_FALSE, MVP->m_afArray);
 	Quad::Draw();
 }
 void AnimatedSprite::Input()
@@ -307,8 +302,6 @@ void AnimatedSprite::Input()
 void AnimatedSprite::Update()
 {
 	
-	
-	this->AnimatedSprite::Input();
 	this->AnimatedSprite::Draw();
 	PlayAnimation();
 

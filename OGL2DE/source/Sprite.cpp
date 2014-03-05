@@ -81,7 +81,7 @@ void Sprite::Draw()
 //	glUniformMatrix4fv (view_location, 1, GL_FALSE, viewMatrix->m_afArray);
 //	glUniformMatrix4fv (proj_location, 1, GL_FALSE, Ortho->m_afArray);
 
-	glUniformMatrix4fv (matrix_location, 1, GL_FALSE, MVP->m_afArray);
+
 	Quad::Draw();
 }
 

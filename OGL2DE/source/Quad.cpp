@@ -131,7 +131,10 @@ void Quad::Draw()
 	glUseProgram(m_ShaderProgram);
 
 	glActiveTexture(GL_TEXTURE0);
+	glBindTexture( GL_TEXTURE_2D, m_uiTexture );
 	glUniform1i (tex_location, 0); 
+
+	glUniformMatrix4fv (matrix_location, 1, GL_FALSE, MVP->m_afArray);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
 	glBindVertexArray(m_VAO);

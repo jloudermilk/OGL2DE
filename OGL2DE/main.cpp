@@ -89,10 +89,9 @@ int main()
 	Ortho =  new Matrix4();
 	Orthographic(0,g_gl_width,g_gl_height,0,0,-1,Ortho);
 
-	FontManager * fntMan = new FontManager();
-	fntMan->LoadFont("../resources/NESish.xml");
+	FontManager::Instance().LoadFont("../resources/NESish.xml");
 
-	
+	AnimatedSprite* Test = new AnimatedSprite("../resources/MegamanXSheet.xml",window);
 
 	while (!glfwWindowShouldClose (window)) {
 		
@@ -110,8 +109,10 @@ int main()
 		char tmp[128];
 		sprintf (tmp, "opengl @ fps: %.2f", fps);
 		glfwSetWindowTitle (window, tmp);
-		fntMan->DrawString("Hello,\nMy name is Inigo Montoya.\nYou killed my father.\nPrepare to die.",Vector2(10,g_gl_height/2),1);
-		//fntMan->DrawString("Hello",Vector2(10,g_gl_height/2),1);
+		Test->Update();
+		FontManager::Instance().DrawString("Hello,\nMy name is Inigo Montoya.\nYou killed my father.\nPrepare to die.",Vector2(0,g_gl_height/2),1);
+		
+
 		glfwPollEvents ();
 		// put the stuff we've been drawing onto the display
 		glfwSwapBuffers (window);
